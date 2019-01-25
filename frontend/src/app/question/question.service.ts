@@ -23,4 +23,8 @@ export class QuestionService {
   getQuestions(): Question[] {
     return this.questions;
   }
+
+  getQuestion(id: number): Question {
+    return this.questions.find(q => q.id == id);
+  }
 }
