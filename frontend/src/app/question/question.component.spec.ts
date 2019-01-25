@@ -14,6 +14,7 @@ describe('QuestionComponent', () => {
 
   beforeEach(async(() => {
     routeSubject = new Subject();
+
     TestBed.configureTestingModule({
       declarations: [QuestionComponent],
       providers: [
@@ -26,7 +27,13 @@ describe('QuestionComponent', () => {
         {
           provide: QuestionService,
           useValue: {
-            getQuestion: (id: number): Question => ({ id: 1, text: 'Question 1 ?' }),
+            getQuestion: (id: number): Question => {
+              if (id == 1) {
+                return { id: 1, text: 'Question 1 ?' }
+              } else {
+                return { id: 2, text: 'Question 2 ?' }
+              }
+            },
           }
         }
       ]
@@ -36,6 +43,7 @@ describe('QuestionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionComponent);
     component = fixture.componentInstance;
+    routeSubject.next(convertToParamMap({ id: 1 }));
     fixture.detectChanges();
   });
 
@@ -44,14 +52,25 @@ describe('QuestionComponent', () => {
   });
 
   it('should get the current question from the service', () => {
-    routeSubject.next(convertToParamMap({ id: 1 }));
-    fixture.detectChanges();
-
     const question = fixture.debugElement
       .query(By.css('#label'))
       .nativeElement
       .textContent.trim();
 
     expect(question).toEqual('Question 1 ?');
+  });
+
+  describe('when navigating to another question', () => {
+    it('loads the question', () => {
+      routeSubject.next(convertToParamMap({ id: 2 }));
+      fixture.detectChanges();
+
+      const question = fixture.debugElement
+        .query(By.css('#label'))
+        .nativeElement
+        .textContent.trim();
+
+      expect(question).toEqual('Question 2 ?');
+    });
   });
 });
