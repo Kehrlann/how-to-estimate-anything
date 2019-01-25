@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, convertToParamMap, ParamMap, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  convertToParamMap,
+  ParamMap,
+  RouterModule
+} from '@angular/router';
 import { Subject } from 'rxjs';
 import { QuestionComponent } from './question.component';
 import { Question } from './question.model';
@@ -28,12 +33,12 @@ describe('QuestionComponent', () => {
           provide: QuestionService,
           useValue: {
             getQuestion: (id: number): Question => {
-              if (id == 1) {
-                return { id: 1, text: 'Question 1 ?' }
+              if (id === 1) {
+                return { id: 1, text: 'Question 1 ?' };
               } else {
-                return { id: 2, text: 'Question 2 ?' }
+                return { id: 2, text: 'Question 2 ?' };
               }
-            },
+            }
           }
         }
       ]
@@ -54,8 +59,7 @@ describe('QuestionComponent', () => {
   it('should get the current question from the service', () => {
     const question = fixture.debugElement
       .query(By.css('#label'))
-      .nativeElement
-      .textContent.trim();
+      .nativeElement.textContent.trim();
 
     expect(question).toEqual('Question 1 ?');
   });
@@ -67,8 +71,7 @@ describe('QuestionComponent', () => {
 
       const question = fixture.debugElement
         .query(By.css('#label'))
-        .nativeElement
-        .textContent.trim();
+        .nativeElement.textContent.trim();
 
       expect(question).toEqual('Question 2 ?');
     });

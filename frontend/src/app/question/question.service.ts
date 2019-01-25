@@ -25,6 +25,6 @@ export class QuestionService {
   }
 
   getQuestion(id: number): Question {
-    return this.questions.find(q => q.id == id);
+    return this.questions.find(q => q.id === id);
   }
 }

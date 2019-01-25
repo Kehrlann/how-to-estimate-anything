@@ -11,15 +11,17 @@ import { Question } from './question.model';
 export class QuestionComponent implements OnInit {
   question: Question;
 
-  constructor(private route: ActivatedRoute, private questionService: QuestionService) {
+  constructor(
+    private route: ActivatedRoute,
+    private questionService: QuestionService
+  ) {
     this.route.paramMap.subscribe(pm => {
-      const id: number = parseInt(pm.get('id'));
+      const id: number = parseInt(pm.get('id'), 10);
       this.updateQuestion(id);
-    })
+    });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   private updateQuestion(id: number) {
     this.question = this.questionService.getQuestion(id);
