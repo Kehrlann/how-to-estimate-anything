@@ -8,13 +8,11 @@ export class QuestionService {
   private questions: Question[] = [
     {
       id: 1,
-      text: 'Question one ?',
-      answered: false
+      text: 'Question one ?'
     },
     {
       id: 2,
-      text: 'Question two ?',
-      answered: false
+      text: 'Question two ?'
     }
   ];
 

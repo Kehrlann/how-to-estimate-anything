@@ -3,5 +3,4 @@ export interface Question {
   text: string;
   min?: number;
   max?: number;
-  answered?: boolean;
 }
