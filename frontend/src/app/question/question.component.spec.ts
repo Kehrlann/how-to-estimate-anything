@@ -70,6 +70,13 @@ describe('QuestionComponent', () => {
 
     expect(minField).not.toBeNull();
     expect(maxField).not.toBeNull();
+
+    component.question.min = 1;
+    component.question.max = 9;
+    fixture.detectChanges();
+
+    expect(minField.nativeElement.value).toBe('1');
+    expect(maxField.nativeElement.value).toBe('9');
   });
 
   describe('when navigating to another question', () => {
