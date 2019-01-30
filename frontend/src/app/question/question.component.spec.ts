@@ -58,19 +58,29 @@ describe('QuestionComponent', () => {
 
   it('should get the current question from the service', () => {
     const question = fixture.debugElement
-      .query(By.css('#label'))
+      .query(By.css('#question'))
       .nativeElement.textContent.trim();
 
     expect(question).toEqual('Question 1 ?');
   });
 
+  it('displays a field for min and for max', () => {
+    const minField = fixture.debugElement.query(By.css('input#min'));
+    const maxField = fixture.debugElement.query(By.css('input#max'));
+
+    expect(minField).not.toBeNull();
+    expect(maxField).not.toBeNull();
+  });
+
   describe('when navigating to another question', () => {
-    it('loads the question', () => {
+    beforeEach(() => {
       routeSubject.next(convertToParamMap({ id: 2 }));
       fixture.detectChanges();
+    });
 
+    it('loads the question', () => {
       const question = fixture.debugElement
-        .query(By.css('#label'))
+        .query(By.css('#question'))
         .nativeElement.textContent.trim();
 
       expect(question).toEqual('Question 2 ?');

@@ -1,3 +1,8 @@
-<p id="label">
-  {{ question?.text }}
-</p>
+<div id="question-page">
+  <h2 id="question">{{ question?.text }}</h2>
+
+  <div class="form">
+    <label for="min">Min (95%)</label> <input type="number" id="min" />
+    <label for="max">max (95%)</label> <input type="number" id="max" />
+  </div>
+</div>
