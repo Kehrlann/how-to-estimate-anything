@@ -1,11 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
-  ActivatedRoute,
-  convertToParamMap,
-  ParamMap,
-  RouterModule
-} from '@angular/router';
+  async,
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync
+} from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { QuestionComponent } from './question.component';
 import { Question } from './question.model';
@@ -22,6 +24,7 @@ describe('QuestionComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [QuestionComponent],
+      imports: [FormsModule],
       providers: [
         {
           provide: ActivatedRoute,
@@ -64,7 +67,7 @@ describe('QuestionComponent', () => {
     expect(question).toEqual('Question 1 ?');
   });
 
-  it('displays a field for min and for max', () => {
+  it('displays a field for min and for max', fakeAsync(() => {
     const minField = fixture.debugElement.query(By.css('input#min'));
     const maxField = fixture.debugElement.query(By.css('input#max'));
 
@@ -74,9 +77,32 @@ describe('QuestionComponent', () => {
     component.question.min = 1;
     component.question.max = 9;
     fixture.detectChanges();
+    tick();
 
     expect(minField.nativeElement.value).toBe('1');
     expect(maxField.nativeElement.value).toBe('9');
+  }));
+
+  describe('when filling out a question', () => {
+    it('cant navigate to the next question until both fields are filled', () => {
+      const button = fixture.debugElement.query(By.css('button#next'));
+      expect(button.nativeElement.disabled).toBeTruthy();
+
+      component.question.min = 1;
+      component.question.max = undefined;
+      fixture.detectChanges();
+      expect(button.nativeElement.disabled).toBeTruthy();
+
+      component.question.min = undefined;
+      component.question.max = 9;
+      fixture.detectChanges();
+      expect(button.nativeElement.disabled).toBeTruthy();
+
+      component.question.min = 1;
+      component.question.max = 9;
+      fixture.detectChanges();
+      expect(button.nativeElement.disabled).toBeFalsy();
+    });
   });
 
   describe('when navigating to another question', () => {
