@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from './question.service';
 import { Question } from './question.model';
+import { RoutingService } from '../routing.service';
 
 @Component({
   selector: 'app-question',
@@ -13,7 +14,8 @@ export class QuestionComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private routingService: RoutingService
   ) {
     this.route.paramMap.subscribe(pm => {
       const id: number = parseInt(pm.get('id'), 10);
@@ -25,5 +27,9 @@ export class QuestionComponent implements OnInit {
 
   private updateQuestion(id: number) {
     this.question = this.questionService.getQuestion(id);
+  }
+
+  nextQuestion() {
+    this.routingService.navigateToNextQuestion(this.question.id);
   }
 }

@@ -25,4 +25,9 @@ export class QuestionService {
   getQuestion(id: number): Question {
     return this.questions.find(q => q.id === id);
   }
+
+  getNextQuestion(currentQuestionId: number): Question {
+    const next = this.questions.map(q => q.id).indexOf(currentQuestionId) + 1;
+    return this.questions[next];
+  }
 }

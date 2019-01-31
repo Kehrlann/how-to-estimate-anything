@@ -21,4 +21,9 @@ describe('QuestionService', () => {
     const questions = service.getQuestion(2);
     expect(questions.text).toBe('Question two ?');
   });
+
+  it('returns the next question', () => {
+    const nextQuestion = service.getNextQuestion(1);
+    expect(nextQuestion).toBe(service.getQuestion(2));
+  });
 });

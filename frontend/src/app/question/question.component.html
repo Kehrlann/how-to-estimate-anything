@@ -4,6 +4,6 @@
   <div class="form">
     <label for="min">Min (95%)</label> <input type="number" id="min" name="min" [(ngModel)]="question.min" />
     <label for="max">max (95%)</label> <input type="number" id="max" name="max" [(ngModel)]="question.max" />
-    <button id="next" [(disabled)]="!question.min || !question.max">Next</button>
+    <button id="next" [(disabled)]="!question.min || !question.max" (click)="nextQuestion()">Next</button>
   </div>
 </div>

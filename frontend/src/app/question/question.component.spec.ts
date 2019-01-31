@@ -1,18 +1,18 @@
 import {
   async,
   ComponentFixture,
+  fakeAsync,
   TestBed,
-  tick,
-  fakeAsync
+  tick
 } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { QuestionComponent } from './question.component';
 import { Question } from './question.model';
 import { QuestionService } from './question.service';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RoutingService } from '../routing.service';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
@@ -43,6 +43,10 @@ describe('QuestionComponent', () => {
               }
             }
           }
+        },
+        {
+          provide: RoutingService,
+          useValue: jasmine.createSpyObj('', ['navigateToNextQuestion'])
         }
       ]
     }).compileComponents();
@@ -59,7 +63,7 @@ describe('QuestionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get the current question from the service', () => {
+  it('gets the current question from the service', () => {
     const question = fixture.debugElement
       .query(By.css('#question'))
       .nativeElement.textContent.trim();
@@ -102,6 +106,21 @@ describe('QuestionComponent', () => {
       component.question.max = 9;
       fixture.detectChanges();
       expect(button.nativeElement.disabled).toBeFalsy();
+    });
+  });
+
+  describe('when the form is filled', () => {
+    it('navigates to the next question', () => {
+      component.question.min = 1;
+      component.question.max = 9;
+      fixture.detectChanges();
+      const button = fixture.debugElement.query(By.css('button#next'))
+        .nativeElement;
+      button.click();
+
+      expect(
+        TestBed.get(RoutingService).navigateToNextQuestion
+      ).toHaveBeenCalledWith(1);
     });
   });
 
