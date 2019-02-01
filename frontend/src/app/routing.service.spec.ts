@@ -34,7 +34,11 @@ describe('RoutingService', () => {
       questionService.getNextQuestion.and.returnValue({ id: 42 });
       const router: jasmine.SpyObj<Router> = TestBed.get(Router);
 
-      service.navigateToNextQuestion(1337);
+      service.navigateToNextQuestion({
+        id: 1337,
+        text: 'question',
+        isLast: false
+      });
 
       expect(questionService.getNextQuestion).toHaveBeenCalledWith(1337);
       expect(router.navigate).toHaveBeenCalledWith(['question', 42]);

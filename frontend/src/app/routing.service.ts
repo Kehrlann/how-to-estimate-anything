@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { QuestionWithOrder } from './question/question.model';
 import { QuestionService } from './question/question.service';
 
 @Injectable({
@@ -11,8 +12,8 @@ export class RoutingService {
     private questionService: QuestionService
   ) {}
 
-  navigateToNextQuestion(currentQuestionId: number) {
-    const question = this.questionService.getNextQuestion(currentQuestionId);
+  navigateToNextQuestion(currentQuestion: QuestionWithOrder) {
+    const question = this.questionService.getNextQuestion(currentQuestion.id);
     this.router.navigate(['question', question.id]);
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { QuestionService } from './question.service';
-import { Question } from './question.model';
 import { RoutingService } from '../routing.service';
+import { QuestionWithOrder } from './question.model';
+import { QuestionService } from './question.service';
 
 @Component({
   selector: 'app-question',
@@ -10,7 +10,7 @@ import { RoutingService } from '../routing.service';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
-  question: Question;
+  question: QuestionWithOrder;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +30,6 @@ export class QuestionComponent implements OnInit {
   }
 
   nextQuestion() {
-    this.routingService.navigateToNextQuestion(this.question.id);
+    this.routingService.navigateToNextQuestion(this.question);
   }
 }

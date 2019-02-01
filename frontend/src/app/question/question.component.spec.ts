@@ -1,26 +1,26 @@
-import {
-  async,
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { Subject } from 'rxjs';
-import { QuestionComponent } from './question.component';
-import { Question, QuestionWithOrder } from './question.model';
-import { QuestionService } from './question.service';
 import { RoutingService } from '../routing.service';
+import { QuestionComponent } from './question.component';
+import { QuestionWithOrder } from './question.model';
+import { QuestionService } from './question.service';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
   let fixture: ComponentFixture<QuestionComponent>;
   let routeSubject: Subject<ParamMap>;
+  let testQuestion: QuestionWithOrder;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     routeSubject = new Subject();
+    testQuestion = {
+      id: 1,
+      text: 'Question 1 ?',
+      isLast: false
+    };
 
     TestBed.configureTestingModule({
       declarations: [QuestionComponent],
@@ -35,9 +35,7 @@ describe('QuestionComponent', () => {
         {
           provide: QuestionService,
           useValue: {
-            getQuestion: jasmine
-              .createSpy()
-              .and.returnValue({ id: 1, text: 'Question 1 ?', isLast: false })
+            getQuestion: jasmine.createSpy().and.returnValue(testQuestion)
           }
         },
         {
@@ -46,7 +44,7 @@ describe('QuestionComponent', () => {
         }
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionComponent);
@@ -67,21 +65,24 @@ describe('QuestionComponent', () => {
     expect(question).toEqual('Question 1 ?');
   });
 
-  it('displays a field for min and for max', fakeAsync(() => {
+  // TODO: y u no work ?
+  it('displays a field for min and for max', () => {
     const minField = fixture.debugElement.query(By.css('input#min'));
     const maxField = fixture.debugElement.query(By.css('input#max'));
 
     expect(minField).not.toBeNull();
     expect(maxField).not.toBeNull();
 
-    component.question.min = 1;
-    component.question.max = 9;
-    fixture.detectChanges();
-    tick();
+    minField.nativeElement.value = 1;
+    minField.nativeElement.dispatchEvent(new Event('input'));
+    maxField.nativeElement.value = 9;
+    maxField.nativeElement.dispatchEvent(new Event('input'));
 
-    expect(minField.nativeElement.value).toBe('1');
-    expect(maxField.nativeElement.value).toBe('9');
-  }));
+    fixture.detectChanges();
+
+    expect(component.question.min).toBe(1);
+    expect(component.question.max).toBe(9);
+  });
 
   it('displays a "next" button', () => {
     const nextButton = fixture.debugElement.query(By.css('button#next'))
@@ -123,7 +124,7 @@ describe('QuestionComponent', () => {
 
       expect(
         TestBed.get(RoutingService).navigateToNextQuestion
-      ).toHaveBeenCalledWith(1);
+      ).toHaveBeenCalledWith(testQuestion);
     });
   });
 
