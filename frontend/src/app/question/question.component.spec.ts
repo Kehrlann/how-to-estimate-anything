@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { Subject } from 'rxjs';
 import { QuestionComponent } from './question.component';
-import { Question } from './question.model';
+import { Question, QuestionWithOrder } from './question.model';
 import { QuestionService } from './question.service';
 import { RoutingService } from '../routing.service';
 
@@ -35,13 +35,9 @@ describe('QuestionComponent', () => {
         {
           provide: QuestionService,
           useValue: {
-            getQuestion: (id: number): Question => {
-              if (id === 1) {
-                return { id: 1, text: 'Question 1 ?' };
-              } else {
-                return { id: 2, text: 'Question 2 ?' };
-              }
-            }
+            getQuestion: jasmine
+              .createSpy()
+              .and.returnValue({ id: 1, text: 'Question 1 ?', isLast: false })
           }
         },
         {
@@ -87,6 +83,13 @@ describe('QuestionComponent', () => {
     expect(maxField.nativeElement.value).toBe('9');
   }));
 
+  it('displays a "next" button', () => {
+    const nextButton = fixture.debugElement.query(By.css('button#next'))
+      .nativeElement;
+
+    expect(nextButton.textContent).toEqual('Next');
+  });
+
   describe('when filling out a question', () => {
     it('cant navigate to the next question until both fields are filled', () => {
       const button = fixture.debugElement.query(By.css('button#next'));
@@ -124,9 +127,16 @@ describe('QuestionComponent', () => {
     });
   });
 
-  describe('when navigating to another question', () => {
+  describe('when navigating to the last question', () => {
     beforeEach(() => {
-      routeSubject.next(convertToParamMap({ id: 2 }));
+      const getQuestionSpy: jasmine.Spy = TestBed.get(QuestionService)
+        .getQuestion;
+      getQuestionSpy.and.returnValue({
+        id: 2,
+        text: 'Question 2 ?',
+        isLast: true
+      });
+      routeSubject.next(convertToParamMap({ id: 47 }));
       fixture.detectChanges();
     });
 
@@ -136,6 +146,13 @@ describe('QuestionComponent', () => {
         .nativeElement.textContent.trim();
 
       expect(question).toEqual('Question 2 ?');
+    });
+
+    it('displays a button with "FINISH"', () => {
+      const nextButton = fixture.debugElement.query(By.css('button#next'))
+        .nativeElement;
+
+      expect(nextButton.textContent).toEqual('Finish');
     });
   });
 });

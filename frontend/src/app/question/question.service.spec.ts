@@ -18,12 +18,17 @@ describe('QuestionService', () => {
   });
 
   it('returns a specific question', () => {
-    const questions = service.getQuestion(2);
-    expect(questions.text).toBe('Question two ?');
+    const first = service.getQuestion(1);
+    const last = service.getQuestion(2);
+
+    expect(first.text).toBe('Question one ?');
+    expect(first.isLast).toBeFalsy();
+    expect(last.text).toBe('Question two ?');
+    expect(last.isLast).toBeTruthy();
   });
 
   it('returns the next question', () => {
     const nextQuestion = service.getNextQuestion(1);
-    expect(nextQuestion).toBe(service.getQuestion(2));
+    expect(nextQuestion.id).toBe(2);
   });
 });

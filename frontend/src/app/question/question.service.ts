@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Question } from './question.model';
+import { Question, QuestionWithOrder } from './question.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +22,11 @@ export class QuestionService {
     return this.questions;
   }
 
-  getQuestion(id: number): Question {
-    return this.questions.find(q => q.id === id);
+  getQuestion(id: number): QuestionWithOrder {
+    const question = this.questions.find(q => q.id === id);
+    const isLast =
+      this.questions.indexOf(question) === this.questions.length - 1;
+    return { ...question, isLast };
   }
 
   getNextQuestion(currentQuestionId: number): Question {

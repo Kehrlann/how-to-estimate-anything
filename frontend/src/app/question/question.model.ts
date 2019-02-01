@@ -4,3 +4,7 @@ export interface Question {
   min?: number;
   max?: number;
 }
+
+export interface QuestionWithOrder extends Question {
+  isLast: boolean;
+}
