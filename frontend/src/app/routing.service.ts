@@ -16,4 +16,9 @@ export class RoutingService {
     const question = this.questionService.getNextQuestion(currentQuestion.id);
     this.router.navigate(['question', question.id]);
   }
+
+  navigateToFirstQuestion() {
+    const question = this.questionService.getFirstQuestion();
+    this.router.navigate(['question', question.id]);
+  }
 }

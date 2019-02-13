@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { By } from '@angular/platform-browser';
+import { RoutingService } from '../routing.service';
 import { WelcomePageComponent } from './welcome-page.component';
 
 describe('WelcomePageComponent', () => {
@@ -8,9 +9,14 @@ describe('WelcomePageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WelcomePageComponent ]
-    })
-    .compileComponents();
+      declarations: [WelcomePageComponent],
+      providers: [
+        {
+          provide: RoutingService,
+          useValue: jasmine.createSpyObj('', ['navigateToFirstQuestion'])
+        }
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +27,16 @@ describe('WelcomePageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('navigates to the first question on button click', () => {
+    const button = fixture.debugElement.query(By.css('button'));
+
+    button.nativeElement.click();
+
+    const routingService: jasmine.SpyObj<RoutingService> = TestBed.get(
+      RoutingService
+    );
+    expect(routingService.navigateToFirstQuestion).toHaveBeenCalled();
   });
 });

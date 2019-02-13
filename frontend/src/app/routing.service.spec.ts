@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-
-import { RoutingService } from './routing.service';
-import { Router, RoutesRecognized } from '@angular/router';
+import { Router } from '@angular/router';
 import { QuestionService } from './question/question.service';
+import { RoutingService } from './routing.service';
 
 describe('RoutingService', () => {
   let service: RoutingService;
@@ -15,7 +14,10 @@ describe('RoutingService', () => {
         },
         {
           provide: QuestionService,
-          useValue: jasmine.createSpyObj('', ['getNextQuestion'])
+          useValue: jasmine.createSpyObj('', [
+            'getNextQuestion',
+            'getFirstQuestion'
+          ])
         }
       ]
     });
@@ -42,6 +44,20 @@ describe('RoutingService', () => {
 
       expect(questionService.getNextQuestion).toHaveBeenCalledWith(1337);
       expect(router.navigate).toHaveBeenCalledWith(['question', 42]);
+    });
+  });
+
+  describe('first question', () => {
+    it('navigates to the first question', () => {
+      const questionService: jasmine.SpyObj<QuestionService> = TestBed.get(
+        QuestionService
+      );
+      questionService.getFirstQuestion.and.returnValue({ id: 99 });
+      const router: jasmine.SpyObj<Router> = TestBed.get(Router);
+
+      service.navigateToFirstQuestion();
+
+      expect(router.navigate).toHaveBeenCalledWith(['question', 99]);
     });
   });
 });

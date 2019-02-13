@@ -17,6 +17,11 @@ describe('QuestionService', () => {
     expect(questions.length).toBe(2);
   });
 
+  it('returns the first question', () => {
+    const question = service.getFirstQuestion();
+    expect(question.id).toBe(1);
+  });
+
   it('returns a specific question', () => {
     const first = service.getQuestion(1);
     const last = service.getQuestion(2);

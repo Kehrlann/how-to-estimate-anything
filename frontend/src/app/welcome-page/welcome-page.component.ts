@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RoutingService } from '../routing.service';
 
 @Component({
   selector: 'app-welcome-page',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./welcome-page.component.scss']
 })
 export class WelcomePageComponent implements OnInit {
+  constructor(private routingService: RoutingService) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  start() {
+    this.routingService.navigateToFirstQuestion();
   }
-
 }

@@ -33,4 +33,8 @@ export class QuestionService {
     const next = this.questions.map(q => q.id).indexOf(currentQuestionId) + 1;
     return this.questions[next];
   }
+
+  getFirstQuestion(): Question {
+    return this.questions[0];
+  }
 }
