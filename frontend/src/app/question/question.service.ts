@@ -37,4 +37,10 @@ export class QuestionService {
   getFirstQuestion(): Question {
     return this.questions[0];
   }
+
+  answerQuestion(id: number, min: number, max: number) {
+    const question = this.questions.find(q => q.id === id);
+    question.min = min;
+    question.max = max;
+  }
 }

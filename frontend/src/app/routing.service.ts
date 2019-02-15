@@ -21,4 +21,8 @@ export class RoutingService {
     const question = this.questionService.getFirstQuestion();
     this.router.navigate(['question', question.id]);
   }
+
+  navigateToSummary() {
+    this.router.navigate(['summary']);
+  }
 }

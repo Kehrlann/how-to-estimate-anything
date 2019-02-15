@@ -36,4 +36,11 @@ describe('QuestionService', () => {
     const nextQuestion = service.getNextQuestion(1);
     expect(nextQuestion.id).toBe(2);
   });
+
+  it('saves an answer', () => {
+    service.answerQuestion(1, 42, 1337);
+    const question = service.getQuestion(1);
+    expect(question.min).toEqual(42);
+    expect(question.max).toEqual(1337);
+  });
 });

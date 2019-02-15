@@ -30,6 +30,15 @@ export class QuestionComponent implements OnInit {
   }
 
   nextQuestion() {
-    this.routingService.navigateToNextQuestion(this.question);
+    this.questionService.answerQuestion(
+      this.question.id,
+      this.question.min,
+      this.question.max
+    );
+    if (this.question.isLast) {
+      this.routingService.navigateToSummary();
+    } else {
+      this.routingService.navigateToNextQuestion(this.question);
+    }
   }
 }

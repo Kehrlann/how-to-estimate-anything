@@ -34,13 +34,17 @@ describe('QuestionComponent', () => {
         },
         {
           provide: QuestionService,
-          useValue: {
-            getQuestion: jasmine.createSpy().and.returnValue(testQuestion)
-          }
+          useValue: jasmine.createSpyObj('questionService', [
+            'getQuestion',
+            'answerQuestion'
+          ])
         },
         {
           provide: RoutingService,
-          useValue: jasmine.createSpyObj('', ['navigateToNextQuestion'])
+          useValue: jasmine.createSpyObj('', [
+            'navigateToNextQuestion',
+            'navigateToSummary'
+          ])
         }
       ]
     }).compileComponents();
@@ -48,6 +52,7 @@ describe('QuestionComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionComponent);
+    TestBed.get(QuestionService).getQuestion.and.returnValue(testQuestion);
     component = fixture.componentInstance;
     routeSubject.next(convertToParamMap({ id: 1 }));
     fixture.detectChanges();
@@ -112,15 +117,25 @@ describe('QuestionComponent', () => {
     });
   });
 
-  describe('when the form is filled', () => {
-    it('navigates to the next question', () => {
+  describe('when the form is filled and the button clicked', () => {
+    beforeEach(() => {
       component.question.min = 1;
       component.question.max = 9;
       fixture.detectChanges();
       const button = fixture.debugElement.query(By.css('button#next'))
         .nativeElement;
       button.click();
+    });
 
+    it('saves the answers', () => {
+      expect(TestBed.get(QuestionService).answerQuestion).toHaveBeenCalledWith(
+        1,
+        1,
+        9
+      );
+    });
+
+    it('navigates to the next question', () => {
       expect(
         TestBed.get(RoutingService).navigateToNextQuestion
       ).toHaveBeenCalledWith(testQuestion);
@@ -149,10 +164,24 @@ describe('QuestionComponent', () => {
     });
 
     it('displays a button with "FINISH"', () => {
-      const nextButton = fixture.debugElement.query(By.css('button#next'))
+      const finishButton = fixture.debugElement.query(By.css('button#next'))
         .nativeElement;
 
-      expect(nextButton.textContent).toEqual('Finish');
+      expect(finishButton.textContent).toEqual('Finish');
+    });
+
+    it('navigates to the summary page', () => {
+      const finishButton = fixture.debugElement.query(By.css('button#next'))
+        .nativeElement;
+      const navigateSpy: jasmine.Spy = TestBed.get(RoutingService)
+        .navigateToSummary;
+
+      component.question.min = 1;
+      component.question.max = 9;
+      fixture.detectChanges();
+      finishButton.click();
+
+      expect(navigateSpy).toHaveBeenCalled();
     });
   });
 });

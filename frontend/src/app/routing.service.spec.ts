@@ -60,4 +60,14 @@ describe('RoutingService', () => {
       expect(router.navigate).toHaveBeenCalledWith(['question', 99]);
     });
   });
+
+  describe('summary', () => {
+    it('navigates to the summary page', () => {
+      const router: jasmine.SpyObj<Router> = TestBed.get(Router);
+
+      service.navigateToSummary();
+
+      expect(router.navigate).toHaveBeenCalledWith(['summary']);
+    });
+  });
 });
