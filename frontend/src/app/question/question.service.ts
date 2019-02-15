@@ -5,16 +5,20 @@ import { Question, QuestionWithOrder } from './question.model';
   providedIn: 'root'
 })
 export class QuestionService {
-  private questions: Question[] = [
-    {
-      id: 1,
-      text: 'Question one ?'
-    },
-    {
-      id: 2,
-      text: 'Question two ?'
-    }
-  ];
+  private get questions(): Question[] {
+    return [
+      {
+        id: 1,
+        text: 'Question one ?'
+      },
+      {
+        id: 2,
+        text: 'Question two ?'
+      }
+    ].map(q => ({ ...q, ...this.answers[q.id] }));
+  }
+
+  private answers = {};
 
   constructor() {}
 
@@ -25,7 +29,7 @@ export class QuestionService {
   getQuestion(id: number): QuestionWithOrder {
     const question = this.questions.find(q => q.id === id);
     const isLast =
-      this.questions.indexOf(question) === this.questions.length - 1;
+      this.questions.findIndex(q => q.id === id) === this.questions.length - 1;
     return { ...question, isLast };
   }
 
@@ -39,8 +43,6 @@ export class QuestionService {
   }
 
   answerQuestion(id: number, min: number, max: number) {
-    const question = this.questions.find(q => q.id === id);
-    question.min = min;
-    question.max = max;
+    this.answers[id] = { min, max };
   }
 }

@@ -14,6 +14,5 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit() {
     this.questions = this.questionService.getQuestions();
-    console.log(this.questions);
   }
 }

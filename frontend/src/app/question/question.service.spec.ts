@@ -43,4 +43,11 @@ describe('QuestionService', () => {
     expect(question.min).toEqual(42);
     expect(question.max).toEqual(1337);
   });
+
+  it('does not modify the base questions', () => {
+    expect(service.getQuestions()).not.toBe(service.getQuestions());
+
+    service.getFirstQuestion().text = 'toto';
+    expect(service.getFirstQuestion().text).not.toEqual('toto');
+  });
 });
