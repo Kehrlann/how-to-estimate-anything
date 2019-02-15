@@ -65,7 +65,6 @@ describe('QuestionComponent', () => {
     expect(question).toEqual('Question 1 ?');
   });
 
-  // TODO: y u no work ?
   it('displays a field for min and for max', () => {
     const minField = fixture.debugElement.query(By.css('input#min'));
     const maxField = fixture.debugElement.query(By.css('input#max'));
