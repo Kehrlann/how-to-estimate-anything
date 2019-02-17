@@ -54,6 +54,8 @@ describe('QuestionComponent', () => {
     fixture = TestBed.createComponent(QuestionComponent);
     TestBed.get(QuestionService).getQuestion.and.returnValue(testQuestion);
     component = fixture.componentInstance;
+    fixture.detectChanges(); // triggers ngOnInit => subscription to route
+
     routeSubject.next(convertToParamMap({ id: 1 }));
     fixture.detectChanges();
   });
@@ -68,6 +70,13 @@ describe('QuestionComponent', () => {
       .nativeElement.textContent.trim();
 
     expect(question).toEqual('Question 1 ?');
+  });
+
+  it('focuses the min field', () => {
+    const minField = fixture.debugElement.query(By.css('input#min'));
+    const focusedField = fixture.debugElement.query(By.css(':focus'));
+
+    expect(focusedField).toBe(minField);
   });
 
   it('displays a field for min and for max', () => {
