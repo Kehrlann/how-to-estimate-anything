@@ -1,1 +1,11 @@
-// keep
+.answer {
+  display: flex;
+  flex-flow: column;
+  margin-top: 1.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #333;
+
+  & > * + * {
+    margin-top: 0.5em;
+  }
+}

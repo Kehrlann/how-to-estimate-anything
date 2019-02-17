@@ -1,8 +1,18 @@
 .form {
   display: flex;
   flex-flow: column;
-  & > * {
-    margin-top: 5px;
-    margin-bottom: 5px;
+  & > label,
+  input {
+    margin-top: 1em;
   }
+}
+
+label {
+  display: flex;
+  flex-flow: column;
+}
+
+button {
+  align-self: center;
+  margin: 1.5em;
 }

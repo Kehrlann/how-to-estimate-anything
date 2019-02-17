@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+.small {
+  font-size: 0.8em;
+}
+
+body {
+  font-size: 18px;
+}
+
+button {
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  line-height: 1.5rem;
+  border: none;
+
+  &.primary:not(:disabled) {
+    background-color: #3fc380;
+    color: white;
+  }
+}
