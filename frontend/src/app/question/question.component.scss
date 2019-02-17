@@ -1,13 +1,3 @@
-:host {
-  display: flex;
-  flex-flow: row;
-  justify-content: center;
-
-  & > *:first-child {
-    flex: 0 1 400px;
-  }
-}
-
 .form {
   display: flex;
   flex-flow: column;
