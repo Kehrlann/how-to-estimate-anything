@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Question, QuestionWithOrder } from './question.model';
+import { Question, QuestionWithOrder, Answers } from './question.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class QuestionService {
     ].map(q => ({ ...q, ...this.answers[q.id] }));
   }
 
-  private answers = {};
+  private answers: Answers = {};
 
   constructor() {}
 
