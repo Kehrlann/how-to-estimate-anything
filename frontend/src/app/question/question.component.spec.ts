@@ -1,4 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
@@ -50,7 +56,8 @@ describe('QuestionComponent', () => {
     }).compileComponents();
   });
 
-  beforeEach(() => {
+  // The callback MUST be async for the fakeAsync tests to work
+  beforeEach(async(() => {
     fixture = TestBed.createComponent(QuestionComponent);
     TestBed.get(QuestionService).getQuestion.and.returnValue(testQuestion);
     component = fixture.componentInstance;
@@ -58,7 +65,7 @@ describe('QuestionComponent', () => {
 
     routeSubject.next(convertToParamMap({ id: 1 }));
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -79,7 +86,7 @@ describe('QuestionComponent', () => {
     expect(focusedField).toBe(minField);
   });
 
-  it('displays a field for min and for max', () => {
+  it('displays a field for min and for max', fakeAsync(() => {
     const minField = fixture.debugElement.query(By.css('input#min'));
     const maxField = fixture.debugElement.query(By.css('input#max'));
 
@@ -90,12 +97,12 @@ describe('QuestionComponent', () => {
     minField.nativeElement.dispatchEvent(new Event('input'));
     maxField.nativeElement.value = 9;
     maxField.nativeElement.dispatchEvent(new Event('input'));
-
     fixture.detectChanges();
+    tick();
 
     expect(component.question.min).toBe(1);
     expect(component.question.max).toBe(9);
-  });
+  }));
 
   it('displays a "next" button', () => {
     const nextButton = fixture.debugElement.query(By.css('button#next'))
