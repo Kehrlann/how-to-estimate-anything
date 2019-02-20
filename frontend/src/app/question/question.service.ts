@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Question, QuestionWithOrder, Answers } from './question.model';
+import { ReportingService } from '../backend/reporting.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class QuestionService {
 
   private answers: Answers = {};
 
-  constructor() {}
+  constructor(private reportingService: ReportingService) {}
 
   getQuestions(): Question[] {
     return this.questions;
@@ -44,5 +45,6 @@ export class QuestionService {
 
   answerQuestion(id: number, min: number, max: number) {
     this.answers[id] = { min, max };
+    this.reportingService.reportAnswer(id, min, max);
   }
 }

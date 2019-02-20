@@ -1,10 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { QuestionService } from './question.service';
+import { ReportingService } from '../backend/reporting.service';
 
 describe('QuestionService', () => {
   let service: QuestionService;
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: ReportingService,
+          useValue: jasmine.createSpyObj('reportingService', ['reportAnswer'])
+        }
+      ]
+    });
     service = TestBed.get(QuestionService);
   });
 
@@ -37,11 +45,24 @@ describe('QuestionService', () => {
     expect(nextQuestion.id).toBe(2);
   });
 
-  it('saves an answer', () => {
-    service.answerQuestion(1, 42, 1337);
-    const question = service.getQuestion(1);
-    expect(question.min).toEqual(42);
-    expect(question.max).toEqual(1337);
+  describe('answerQuestion', () => {
+    beforeEach(() => {
+      service.answerQuestion(1, 42, 1337);
+    });
+
+    it('saves an answer', () => {
+      const question = service.getQuestion(1);
+      expect(question.min).toEqual(42);
+      expect(question.max).toEqual(1337);
+    });
+
+    it('publishes the results to the backend on every answer', () => {
+      expect(TestBed.get(ReportingService).reportAnswer).toHaveBeenCalledWith(
+        1,
+        42,
+        1337
+      );
+    });
   });
 
   it('does not modify the base questions', () => {
