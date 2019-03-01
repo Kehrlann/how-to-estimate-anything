@@ -14,6 +14,7 @@ describe('ClientGateway', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [ClientGateway, TrackingService],
     }).compile();
+
     gateway = module.get<ClientGateway>(ClientGateway);
     trackingService = (TrackingService as jest.Mock<TrackingService>).mock
       .instances[0];
@@ -23,9 +24,15 @@ describe('ClientGateway', () => {
     expect(gateway).toBeDefined();
   });
 
-  it('track connections', () => {
+  it('tracks connections', () => {
     gateway.handleConnection({});
 
     expect(trackingService.addClient).toHaveBeenCalledTimes(1);
+  });
+
+  it('tracks disconnects', () => {
+    gateway.handleDisconnect({});
+
+    expect(trackingService.removeClient).toHaveBeenCalledTimes(1);
   });
 });
