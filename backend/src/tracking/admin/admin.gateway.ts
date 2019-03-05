@@ -3,7 +3,7 @@ import {
   WebSocketGateway,
   OnGatewayConnection,
 } from '@nestjs/websockets';
-import { TrackingService } from './tracking.service';
+import { TrackingService } from '../tracking.service';
 import { take } from 'rxjs/operators';
 
 @WebSocketGateway({ namespace: 'admin' })
