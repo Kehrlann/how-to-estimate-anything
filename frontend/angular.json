@@ -56,7 +56,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "how-to-estimate-anything:build"
+            "browserTarget": "how-to-estimate-anything:build",
+            "proxyConfig": "proxy.config.json"
           },
           "configurations": {
             "production": {
