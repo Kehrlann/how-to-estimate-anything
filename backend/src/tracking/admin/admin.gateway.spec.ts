@@ -24,7 +24,7 @@ describe('AdminGateway', () => {
   });
 
   describe('sending client count', () => {
-    it('sends clientCount to the admin client', () => {
+    it('sends clientCount to the admin client on update', () => {
       const server = { emit: jest.fn() };
       gateway.afterInit(server);
       clientCountSubject.next(42);
@@ -32,7 +32,7 @@ describe('AdminGateway', () => {
       expect(server.emit).toHaveBeenCalledWith('client_count', 42);
     });
 
-    it('sends clientCount when the admin connects, but nothing after that', () => {
+    it('proactively sends clientCount when the admin connects, once', () => {
       const client = { emit: jest.fn() };
 
       clientCountSubject.next(24);
