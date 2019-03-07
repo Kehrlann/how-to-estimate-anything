@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClientGateway } from './client.gateway';
 import { TrackingService } from './tracking.service';
+import { AnswerMessage } from './answer.model';
 jest.mock('./tracking.service');
 
 describe('ClientGateway', () => {
@@ -36,5 +37,16 @@ describe('ClientGateway', () => {
     gateway.handleDisconnect({});
 
     expect(trackingService.removeClient).toHaveBeenCalledTimes(1);
+  });
+
+  it('tracks answers', () => {
+    const answerMessage: AnswerMessage = {
+      clientId: 'one',
+      questionId: 1,
+      answer: { min: 1, max: 42 },
+    };
+    gateway.handleAnswer(null, answerMessage);
+
+    expect(trackingService.addAnswer).toHaveBeenCalledWith(answerMessage);
   });
 });
