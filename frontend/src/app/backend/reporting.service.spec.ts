@@ -4,16 +4,20 @@ import { ReportingService } from './reporting.service';
 
 describe('ReportingService', () => {
   let ioSpy: jasmine.Spy;
+  let socketStub: { emit: jasmine.Spy };
+  let service: ReportingService;
 
   beforeEach(() => {
     ioSpy = jasmine.createSpy();
+    socketStub = { emit: jasmine.createSpy() };
+    ioSpy.and.returnValue(socketStub);
     TestBed.configureTestingModule({
       providers: [{ provide: SocketIoService, useValue: { io: ioSpy } }]
     });
   });
 
   it('should be created', () => {
-    const service: ReportingService = TestBed.get(ReportingService);
+    service = TestBed.get(ReportingService);
     expect(service).toBeTruthy();
   });
 
@@ -21,5 +25,16 @@ describe('ReportingService', () => {
     TestBed.get(ReportingService);
 
     expect(ioSpy).toHaveBeenCalledWith('/client');
+  });
+
+  it('reports the answers', () => {
+    service = TestBed.get(ReportingService);
+    service.reportAnswer(1, 5, 42);
+
+    expect(socketStub.emit).toHaveBeenCalledWith('answer', {
+      id: 1,
+      min: 5,
+      max: 42
+    });
   });
 });
