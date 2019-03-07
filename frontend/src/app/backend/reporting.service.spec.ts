@@ -31,8 +31,12 @@ describe('ReportingService', () => {
     service = TestBed.get(ReportingService);
     service.reportAnswer(1, 5, 42);
 
-    expect(socketStub.emit).toHaveBeenCalledWith('answer', {
-      id: 1,
+    const callArgs = socketStub.emit.calls.mostRecent().args;
+    expect(callArgs[0]).toEqual('answer');
+    const payload = callArgs[1];
+    expect(payload.questionId).toEqual(1);
+    expect(payload.clientId).not.toBeFalsy();
+    expect(payload.answer).toEqual({
       min: 5,
       max: 42
     });
