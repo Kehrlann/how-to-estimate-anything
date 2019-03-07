@@ -51,4 +51,29 @@ describe('TrackingService', () => {
       expect(second).toBe(0);
     });
   });
+
+  describe('answer count', () => {
+    it('tracks answers', async () => {
+      service.addAnswer({
+        clientId: 'one',
+        questionId: 1,
+        answer: { min: 42, max: 1337 },
+      });
+
+      service.addAnswer({
+        clientId: 'one',
+        questionId: 5,
+        answer: { min: 1, max: 5 },
+      });
+
+      service.addAnswer({
+        clientId: 'two',
+        questionId: 5,
+        answer: { min: 2, max: 6.5 },
+      });
+
+      const answers = await service.answerCount$.pipe(take(1)).toPromise();
+      expect(answers).toEqual({ 1: 1, 5: 2 });
+    });
+  });
 });
