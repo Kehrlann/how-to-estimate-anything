@@ -11,7 +11,7 @@ import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { Subject } from 'rxjs';
 import { RoutingService } from '../routing.service';
 import { QuestionComponent } from './question.component';
-import { QuestionWithOrder } from './question.model';
+import { QuestionWithOrder } from '@common/question.model';
 import { QuestionService } from './question.service';
 
 describe('QuestionComponent', () => {

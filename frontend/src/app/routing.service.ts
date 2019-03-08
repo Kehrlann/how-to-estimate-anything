@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { QuestionWithOrder } from './question/question.model';
+import { QuestionWithOrder } from '@common/question.model';
 import { QuestionService } from './question/question.service';
 
 @Injectable({
