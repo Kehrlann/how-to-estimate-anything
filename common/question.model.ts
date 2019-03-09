@@ -9,7 +9,7 @@ export interface QuestionWithOrder extends Question {
   isLast: boolean;
 }
 
-interface Answer {
+export interface Answer {
   min: number;
   max: number;
 }
