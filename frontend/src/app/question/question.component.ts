@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from '../routing.service';
-import { QuestionWithOrder } from '@common/question.model';
+import { QuestionWithOrder } from '@common/models';
 import { QuestionService } from './question.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Question, QuestionWithOrder, Answers } from '@common/question.model';
+import { Question, QuestionWithOrder, Answers } from '@common/models';
 import { ReportingService } from '../backend/reporting.service';
 
 @Injectable({
