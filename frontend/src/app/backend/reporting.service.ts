@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SocketIoService } from '../socket-io.service';
 import { Socket } from 'socket.io';
 import * as uuid from 'uuid/v4';
+import { EstimateFromClient } from '@common/models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,11 @@ export class ReportingService {
     this.socket = this.socketIoService.io('/client');
   }
 
-  reportAnswer(questionId: number, min: number, max: number) {
-    this.socket.emit('answer', {
+  reportEstimate(questionId: number, min: number, max: number) {
+    this.socket.emit('estimate', <EstimateFromClient>{
       clientId: this.id,
       questionId,
-      answer: { min, max }
+      estimate: { min, max }
     });
   }
 }

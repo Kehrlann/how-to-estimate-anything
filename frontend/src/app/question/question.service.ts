@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Question, QuestionWithOrder, Answers } from '@common/models';
+import { Question, QuestionWithOrder, Estimates } from '@common/models';
 import { ReportingService } from '../backend/reporting.service';
 
 @Injectable({
@@ -16,10 +16,10 @@ export class QuestionService {
         id: 2,
         text: 'Question two ?'
       }
-    ].map(q => ({ ...q, ...this.answers[q.id] }));
+    ].map(q => ({ ...q, ...this.estimates[q.id] }));
   }
 
-  private answers: Answers = {};
+  private estimates: Estimates = {};
 
   constructor(private reportingService: ReportingService) {}
 
@@ -43,8 +43,8 @@ export class QuestionService {
     return this.questions[0];
   }
 
-  answerQuestion(id: number, min: number, max: number) {
-    this.answers[id] = { min, max };
-    this.reportingService.reportAnswer(id, min, max);
+  saveEstimate(id: number, min: number, max: number) {
+    this.estimates[id] = { min, max };
+    this.reportingService.reportEstimate(id, min, max);
   }
 }

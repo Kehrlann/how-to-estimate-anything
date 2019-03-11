@@ -50,9 +50,9 @@ describe('SummaryComponent', () => {
   });
 
   it('displays results for all questions', () => {
-    const answers = fixture.debugElement.queryAll(By.css('.answer'));
-    const one = answers[0].nativeElement;
-    const two = answers[1].nativeElement;
+    const estimates = fixture.debugElement.queryAll(By.css('.estimate'));
+    const one = estimates[0].nativeElement;
+    const two = estimates[1].nativeElement;
 
     expect(one.textContent).toContain('One');
     expect(one.textContent).toContain('10 - 19');

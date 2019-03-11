@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { AnswerMessage } from './answer.model';
+import { EstimateFromClient } from '@common/models';
 
 @Injectable()
 export class TrackingService {
   private _clientCount = new BehaviorSubject<number>(0);
-  private _answerCount = new BehaviorSubject<{ [id: string]: number }>({});
+  private _estimateCount = new BehaviorSubject<{ [id: string]: number }>({});
   get clientCount$(): Observable<number> {
     return this._clientCount;
   }
 
-  get answerCount$(): Observable<{ [id: string]: number }> {
-    return this._answerCount;
+  get estimateCount$(): Observable<{ [id: string]: number }> {
+    return this._estimateCount;
   }
 
   addClient(): void {
@@ -22,12 +22,12 @@ export class TrackingService {
     this._clientCount.next(Math.max(this._clientCount.value - 1, 0));
   }
 
-  addAnswer(answerMessage: AnswerMessage) {
-    const currentAnswers = this._answerCount.value;
-    const currentCount = currentAnswers[answerMessage.questionId] || 0;
-    this._answerCount.next({
-      ...currentAnswers,
-      [answerMessage.questionId]: currentCount + 1,
+  recoredEstimate(message: EstimateFromClient) {
+    const currentEstimates = this._estimateCount.value;
+    const currentCount = currentEstimates[message.questionId] || 0;
+    this._estimateCount.next({
+      ...currentEstimates,
+      [message.questionId]: currentCount + 1,
     });
   }
 }

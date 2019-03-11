@@ -32,7 +32,7 @@ export class QuestionComponent implements OnInit {
   }
 
   nextQuestion() {
-    this.questionService.answerQuestion(
+    this.questionService.saveEstimate(
       this.question.id,
       this.question.min,
       this.question.max

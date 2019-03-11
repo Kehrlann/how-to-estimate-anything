@@ -5,7 +5,7 @@ import {
   SubscribeMessage,
 } from '@nestjs/websockets';
 import { TrackingService } from './tracking.service';
-import { AnswerMessage } from './answer.model';
+import { EstimateFromClient } from '@common/models';
 
 @WebSocketGateway({ namespace: 'client' })
 export class ClientGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -19,8 +19,8 @@ export class ClientGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.trackingService.removeClient();
   }
 
-  @SubscribeMessage('answer')
-  handleAnswer(client, answerMessage: AnswerMessage) {
-    this.trackingService.addAnswer(answerMessage);
+  @SubscribeMessage('estimate')
+  handleEstimate(client, estimate: EstimateFromClient) {
+    this.trackingService.recoredEstimate(estimate);
   }
 }

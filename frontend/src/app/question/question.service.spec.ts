@@ -9,7 +9,7 @@ describe('QuestionService', () => {
       providers: [
         {
           provide: ReportingService,
-          useValue: jasmine.createSpyObj('reportingService', ['reportAnswer'])
+          useValue: jasmine.createSpyObj('reportingService', ['reportEstimate'])
         }
       ]
     });
@@ -45,19 +45,19 @@ describe('QuestionService', () => {
     expect(nextQuestion.id).toBe(2);
   });
 
-  describe('answerQuestion', () => {
+  describe('saveEstimate', () => {
     beforeEach(() => {
-      service.answerQuestion(1, 42, 1337);
+      service.saveEstimate(1, 42, 1337);
     });
 
-    it('saves an answer', () => {
+    it('saves an estimate', () => {
       const question = service.getQuestion(1);
       expect(question.min).toEqual(42);
       expect(question.max).toEqual(1337);
     });
 
-    it('publishes the results to the backend on every answer', () => {
-      expect(TestBed.get(ReportingService).reportAnswer).toHaveBeenCalledWith(
+    it('publishes the results to the backend on every estimate', () => {
+      expect(TestBed.get(ReportingService).reportEstimate).toHaveBeenCalledWith(
         1,
         42,
         1337

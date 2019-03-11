@@ -27,16 +27,16 @@ describe('ReportingService', () => {
     expect(ioSpy).toHaveBeenCalledWith('/client');
   });
 
-  it('reports the answers', () => {
+  it('reports the estimates', () => {
     service = TestBed.get(ReportingService);
-    service.reportAnswer(1, 5, 42);
+    service.reportEstimate(1, 5, 42);
 
     const callArgs = socketStub.emit.calls.mostRecent().args;
-    expect(callArgs[0]).toEqual('answer');
+    expect(callArgs[0]).toEqual('estimate');
     const payload = callArgs[1];
     expect(payload.questionId).toEqual(1);
     expect(payload.clientId).not.toBeFalsy();
-    expect(payload.answer).toEqual({
+    expect(payload.estimate).toEqual({
       min: 5,
       max: 42
     });

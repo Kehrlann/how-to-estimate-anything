@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClientGateway } from './client.gateway';
 import { TrackingService } from './tracking.service';
-import { AnswerMessage } from './answer.model';
+import { EstimateFromClient } from '@common/models';
 jest.mock('./tracking.service');
 
 describe('ClientGateway', () => {
@@ -39,14 +39,14 @@ describe('ClientGateway', () => {
     expect(trackingService.removeClient).toHaveBeenCalledTimes(1);
   });
 
-  it('tracks answers', () => {
-    const answerMessage: AnswerMessage = {
+  it('tracks estimates', () => {
+    const estimate: EstimateFromClient = {
       clientId: 'one',
       questionId: 1,
-      answer: { min: 1, max: 42 },
+      estimate: { min: 1, max: 42 },
     };
-    gateway.handleAnswer(null, answerMessage);
+    gateway.handleEstimate(null, estimate);
 
-    expect(trackingService.addAnswer).toHaveBeenCalledWith(answerMessage);
+    expect(trackingService.recoredEstimate).toHaveBeenCalledWith(estimate);
   });
 });

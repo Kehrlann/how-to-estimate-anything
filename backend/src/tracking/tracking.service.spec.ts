@@ -52,28 +52,28 @@ describe('TrackingService', () => {
     });
   });
 
-  describe('answer count', () => {
-    it('tracks answers', async () => {
-      service.addAnswer({
+  describe('estimate count', () => {
+    it('tracks estimates', async () => {
+      service.recoredEstimate({
         clientId: 'one',
         questionId: 1,
-        answer: { min: 42, max: 1337 },
+        estimate: { min: 42, max: 1337 },
       });
 
-      service.addAnswer({
+      service.recoredEstimate({
         clientId: 'one',
         questionId: 5,
-        answer: { min: 1, max: 5 },
+        estimate: { min: 1, max: 5 },
       });
 
-      service.addAnswer({
+      service.recoredEstimate({
         clientId: 'two',
         questionId: 5,
-        answer: { min: 2, max: 6.5 },
+        estimate: { min: 2, max: 6.5 },
       });
 
-      const answers = await service.answerCount$.pipe(take(1)).toPromise();
-      expect(answers).toEqual({ 1: 1, 5: 2 });
+      const estimates = await service.estimateCount$.pipe(take(1)).toPromise();
+      expect(estimates).toEqual({ 1: 1, 5: 2 });
     });
   });
 });

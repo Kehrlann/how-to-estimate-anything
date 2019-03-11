@@ -42,7 +42,7 @@ describe('QuestionComponent', () => {
           provide: QuestionService,
           useValue: jasmine.createSpyObj('questionService', [
             'getQuestion',
-            'answerQuestion'
+            'saveEstimate'
           ])
         },
         {
@@ -143,8 +143,8 @@ describe('QuestionComponent', () => {
       button.click();
     });
 
-    it('saves the answers', () => {
-      expect(TestBed.get(QuestionService).answerQuestion).toHaveBeenCalledWith(
+    it('saves the estimate', () => {
+      expect(TestBed.get(QuestionService).saveEstimate).toHaveBeenCalledWith(
         1,
         1,
         9

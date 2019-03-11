@@ -9,11 +9,17 @@ export interface QuestionWithOrder extends Question {
   isLast: boolean;
 }
 
-export interface Answer {
+export interface Estimate {
   min: number;
   max: number;
 }
 
-export interface Answers {
-  [key: string]: Answer;
+export interface Estimates {
+  [key: string]: Estimate;
+}
+
+export interface EstimateFromClient {
+  clientId: string;
+  questionId: number;
+  estimate: Estimate;
 }
