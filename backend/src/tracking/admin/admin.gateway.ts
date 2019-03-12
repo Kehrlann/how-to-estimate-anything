@@ -14,6 +14,9 @@ export class AdminGateway implements OnGatewayInit, OnGatewayConnection {
     this.trackingService.clientCount$.subscribe(count =>
       server.emit('client_count', count),
     );
+    this.trackingService.estimateCount$.subscribe(count =>
+      server.emit('estimate_count', count),
+    );
   }
 
   handleConnection(client: any, ...args: any[]) {
@@ -21,5 +24,10 @@ export class AdminGateway implements OnGatewayInit, OnGatewayConnection {
     this.trackingService.clientCount$
       .pipe(take(1))
       .subscribe(count => client.emit('client_count', count));
+
+    // this works because estimateCount$ is a BehaviorSubject and will give the last known value
+    this.trackingService.estimateCount$
+      .pipe(take(1))
+      .subscribe(count => client.emit('estimate_count', count));
   }
 }
