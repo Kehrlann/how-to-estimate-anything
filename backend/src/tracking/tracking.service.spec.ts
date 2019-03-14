@@ -54,19 +54,19 @@ describe('TrackingService', () => {
 
   describe('estimate count', () => {
     it('tracks estimates', async () => {
-      service.recoredEstimate({
+      service.recordEstimate({
         clientId: 'one',
         questionId: 1,
         estimate: { min: 42, max: 1337 },
       });
 
-      service.recoredEstimate({
+      service.recordEstimate({
         clientId: 'one',
         questionId: 5,
         estimate: { min: 1, max: 5 },
       });
 
-      service.recoredEstimate({
+      service.recordEstimate({
         clientId: 'two',
         questionId: 5,
         estimate: { min: 2, max: 6.5 },

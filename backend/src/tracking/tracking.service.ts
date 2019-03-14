@@ -22,7 +22,7 @@ export class TrackingService {
     this._clientCount.next(Math.max(this._clientCount.value - 1, 0));
   }
 
-  recoredEstimate(message: EstimateFromClient) {
+  recordEstimate(message: EstimateFromClient) {
     const currentEstimates = this._estimateCount.value;
     const currentCount = currentEstimates[message.questionId] || 0;
     this._estimateCount.next({

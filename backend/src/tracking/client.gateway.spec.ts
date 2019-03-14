@@ -47,6 +47,6 @@ describe('ClientGateway', () => {
     };
     gateway.handleEstimate(null, estimate);
 
-    expect(trackingService.recoredEstimate).toHaveBeenCalledWith(estimate);
+    expect(trackingService.recordEstimate).toHaveBeenCalledWith(estimate);
   });
 });

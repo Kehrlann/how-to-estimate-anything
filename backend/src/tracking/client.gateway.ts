@@ -21,6 +21,6 @@ export class ClientGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('estimate')
   handleEstimate(client, estimate: EstimateFromClient) {
-    this.trackingService.recoredEstimate(estimate);
+    this.trackingService.recordEstimate(estimate);
   }
 }
