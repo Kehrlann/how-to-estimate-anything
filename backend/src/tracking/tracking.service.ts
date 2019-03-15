@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { EstimateFromClient } from '@common/models';
+import { Injectable } from '@nestjs/common';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class TrackingService {
