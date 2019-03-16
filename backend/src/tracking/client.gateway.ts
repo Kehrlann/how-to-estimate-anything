@@ -4,23 +4,23 @@ import {
   WebSocketGateway,
   SubscribeMessage,
 } from '@nestjs/websockets';
-import { TrackingService } from './tracking.service';
+import { EstimationService } from './estimation.service';
 import { EstimateFromClient } from '@common/models';
 
 @WebSocketGateway({ namespace: 'client' })
 export class ClientGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private trackingService: TrackingService) {}
+  constructor(private estimationService: EstimationService) {}
 
   handleConnection(client: any, ...args: any[]) {
-    this.trackingService.addClient();
+    this.estimationService.addClient();
   }
 
   handleDisconnect(client: any) {
-    this.trackingService.removeClient();
+    this.estimationService.removeClient();
   }
 
   @SubscribeMessage('estimate')
   handleEstimate(client, estimate: EstimateFromClient) {
-    this.trackingService.recordEstimate(estimate);
+    this.estimationService.recordEstimate(estimate);
   }
 }

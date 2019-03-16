@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TrackingService } from './tracking.service';
+import { EstimationService } from './estimation.service';
 import { take } from 'rxjs/operators';
 
-describe('TrackingService', () => {
-  let service: TrackingService;
+describe('EstimationService', () => {
+  let service: EstimationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TrackingService],
+      providers: [EstimationService],
     }).compile();
 
-    service = module.get<TrackingService>(TrackingService);
+    service = module.get<EstimationService>(EstimationService);
   });
 
   it('should be defined', () => {

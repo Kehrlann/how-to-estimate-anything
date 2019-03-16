@@ -1,26 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClientGateway } from './client.gateway';
-import { TrackingService } from './tracking.service';
+import { EstimationService } from './estimation.service';
 import { EstimateFromClient } from '@common/models';
-jest.mock('./tracking.service');
+jest.mock('./estimation.service');
 
 describe('ClientGateway', () => {
   let gateway: ClientGateway;
-  let trackingService: TrackingService;
+  let estimationService: EstimationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ClientGateway, TrackingService],
+      providers: [ClientGateway, EstimationService],
     }).compile();
 
     gateway = module.get<ClientGateway>(ClientGateway);
-    trackingService = (TrackingService as jest.Mock<TrackingService>).mock
+    estimationService = (EstimationService as jest.Mock<EstimationService>).mock
       .instances[0];
   });
 
   afterEach(async () => {
-    const trackingServiceMock = TrackingService as jest.Mock<TrackingService>;
-    trackingServiceMock.mockClear();
+    const estimationServiceMock = EstimationService as jest.Mock<
+      EstimationService
+    >;
+    estimationServiceMock.mockClear();
   });
 
   it('should be defined', () => {
@@ -30,13 +32,13 @@ describe('ClientGateway', () => {
   it('tracks connections', () => {
     gateway.handleConnection({});
 
-    expect(trackingService.addClient).toHaveBeenCalledTimes(1);
+    expect(estimationService.addClient).toHaveBeenCalledTimes(1);
   });
 
   it('tracks disconnects', () => {
     gateway.handleDisconnect({});
 
-    expect(trackingService.removeClient).toHaveBeenCalledTimes(1);
+    expect(estimationService.removeClient).toHaveBeenCalledTimes(1);
   });
 
   it('tracks estimates', () => {
@@ -47,6 +49,6 @@ describe('ClientGateway', () => {
     };
     gateway.handleEstimate(null, estimate);
 
-    expect(trackingService.recordEstimate).toHaveBeenCalledWith(estimate);
+    expect(estimationService.recordEstimate).toHaveBeenCalledWith(estimate);
   });
 });

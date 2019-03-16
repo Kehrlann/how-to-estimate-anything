@@ -1,9 +1,9 @@
-import { EstimateFromClient } from '@common/models';
+import { EstimateFromClient, Question } from '@common/models';
 import { Injectable } from '@nestjs/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
-export class TrackingService {
+export class EstimationService {
   private _clientCount = new BehaviorSubject<number>(0);
   private _estimateCount = new BehaviorSubject<{ [id: string]: number }>({});
   get clientCount$(): Observable<number> {
@@ -29,5 +29,9 @@ export class TrackingService {
       ...currentEstimates,
       [message.questionId]: currentCount + 1,
     });
+  }
+
+  getClientEstimates(): { [id: string]: Question[] } {
+    return {};
   }
 }

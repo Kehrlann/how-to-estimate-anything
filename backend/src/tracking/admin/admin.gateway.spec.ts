@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminGateway } from './admin.gateway';
 import { Subject, BehaviorSubject } from 'rxjs';
-import { TrackingService } from '../tracking.service';
+import { EstimationService } from '../estimation.service';
 
 describe('AdminGateway', () => {
   let gateway: AdminGateway;
@@ -12,9 +12,9 @@ describe('AdminGateway', () => {
     clientCountSubject = new BehaviorSubject<number>(0);
     estimateCountSubject = new BehaviorSubject({});
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AdminGateway, TrackingService],
+      providers: [AdminGateway, EstimationService],
     })
-      .overrideProvider(TrackingService)
+      .overrideProvider(EstimationService)
       .useValue({
         clientCount$: clientCountSubject,
         estimateCount$: estimateCountSubject,
