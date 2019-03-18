@@ -1,11 +1,20 @@
+import * as data from '@common/data';
 import { Test, TestingModule } from '@nestjs/testing';
-import { EstimationService } from './estimation.service';
 import { take } from 'rxjs/operators';
+import { EstimationService } from './estimation.service';
+import { QuestionWithAnswer } from '@common/models';
 
 describe('EstimationService', () => {
   let service: EstimationService;
+  let getQuestionsMock: jest.SpyInstance;
 
   beforeEach(async () => {
+    getQuestionsMock = jest.spyOn(data, 'getQuestions');
+    getQuestionsMock.mockReturnValue([
+      { id: 1, text: 'one', answer: 0 },
+      { id: 2, text: 'two', answer: 0 },
+    ]);
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [EstimationService],
     }).compile();
@@ -53,6 +62,11 @@ describe('EstimationService', () => {
   });
 
   describe('estimate count', () => {
+    it('starts with zero for every question', async () => {
+      const estimates = await service.estimateCount$.pipe(take(1)).toPromise();
+      expect(estimates).toEqual({ 1: 0, 2: 0 });
+    });
+
     it('tracks estimates', async () => {
       service.recordEstimate({
         clientId: 'one',
@@ -61,19 +75,65 @@ describe('EstimationService', () => {
       });
 
       service.recordEstimate({
-        clientId: 'one',
-        questionId: 5,
-        estimate: { min: 1, max: 5 },
-      });
-
-      service.recordEstimate({
         clientId: 'two',
-        questionId: 5,
+        questionId: 1,
         estimate: { min: 2, max: 6.5 },
       });
 
+      service.recordEstimate({
+        clientId: 'one',
+        questionId: 2,
+        estimate: { min: 1, max: 5 },
+      });
+
       const estimates = await service.estimateCount$.pipe(take(1)).toPromise();
-      expect(estimates).toEqual({ 1: 1, 5: 2 });
+      expect(estimates).toEqual({ 1: 2, 2: 1 });
+    });
+  });
+
+  describe('report results', () => {
+    beforeEach(() => {
+      getQuestionsMock.mockReturnValue([
+        { id: 1, text: 'one', answer: 1 },
+        { id: 2, text: 'two', answer: 2 },
+        { id: 3, text: 'three', answer: 3 },
+      ] as QuestionWithAnswer[]);
+    });
+
+    it('reports how many answers estimators got right', () => {
+      // estimator one is 100% correct ; testing min and max
+      service.recordEstimate({
+        clientId: 'one',
+        questionId: 1,
+        estimate: { min: -10, max: 1 },
+      });
+      service.recordEstimate({
+        clientId: 'one',
+        questionId: 2,
+        estimate: { min: 2, max: 10 },
+      });
+      service.recordEstimate({
+        clientId: 'one',
+        questionId: 3,
+        estimate: { min: -10, max: 10 },
+      });
+
+      // estimator two has one right and is missing one
+      service.recordEstimate({
+        clientId: 'two',
+        questionId: 1,
+        estimate: { min: -10, max: 10 },
+      });
+      service.recordEstimate({
+        clientId: 'two',
+        questionId: 2,
+        estimate: { min: 1000, max: 1001 },
+      });
+
+      expect(service.getReport()).toEqual([
+        { correctAnswers: 3, unanswered: 0, total: 3 },
+        { correctAnswers: 1, unanswered: 1, total: 3 },
+      ]);
     });
   });
 });
