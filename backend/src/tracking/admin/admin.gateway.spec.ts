@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AdminGateway } from './admin.gateway';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { EstimationService } from '../estimation.service';
+import { AdminGateway } from './admin.gateway';
 
 describe('AdminGateway', () => {
   let gateway: AdminGateway;
