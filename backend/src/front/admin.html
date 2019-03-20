@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      let client;
+
+      (function() {
+        client = io('/client');
+        client.on('connect', function(socket) {
+          console.log('connected !');
+        });
+        client.on('*', msg => console.log('client message : ' + msg));
+        client.on('client_count', msg =>
+          console.log('client client message : ' + msg),
+        );
+        const admin = io('/admin');
+        admin.on('connect', function(socket) {
+          console.log('admin connected !');
+        });
+        admin.on('client_count', msg => {
+          console.log('client count : ' + msg);
+          document.getElementById('count').innerHTML = msg;
+        });
+        admin.on('estimate_count', msg => {
+          console.log('estimate count : ' + msg);
+          document.getElementById('estimates').innerHTML = JSON.stringify(msg);
+        });
+      })();
+
+      var clickme = () => {
+        console.log('emitting');
+        client.emit('hello', 'world');
+      };
+    </script>
+  </head>
+  <body>
+    <h1>Websocket test page</h1>
+    <button onclick="clickme()">CLICK MEH</button>
+    <h2>Client count: <span id="count">0</span></h2>
+    <h2>Estimates count: <span id="estimates">0</span></h2>
+  </body>
+</html>
