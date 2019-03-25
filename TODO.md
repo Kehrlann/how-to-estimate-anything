@@ -4,11 +4,10 @@
 
 [x] Decent-looking pages (css it up !)
 [ ] Find 20 questions
-[ ] Maybe an "answer" page ?
+[ ] Make a page with answers
+[ ] Make the answers page work offline
 
-## Front-and-back
+## backed / admin
 
-[ ] Setup websocket in backend
-[ ] Connect to backend on app startup
-[ ] Track number of connections in the backend
-[ ] Disconnect on quitting page ?
+[ ] Tracking page to know where people are at
+[ ] Report page to know how people are right / wrong
