@@ -108,7 +108,7 @@ describe('QuestionComponent', () => {
     const nextButton = fixture.debugElement.query(By.css('button#next'))
       .nativeElement;
 
-    expect(nextButton.textContent).toEqual('Next');
+    expect(nextButton.textContent).toEqual('Suivant');
   });
 
   describe('when filling out a question', () => {
@@ -183,7 +183,7 @@ describe('QuestionComponent', () => {
       const finishButton = fixture.debugElement.query(By.css('button#next'))
         .nativeElement;
 
-      expect(finishButton.textContent).toEqual('Finish');
+      expect(finishButton.textContent).toEqual('Finir');
     });
 
     it('navigates to the summary page', () => {

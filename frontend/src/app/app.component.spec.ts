@@ -20,8 +20,11 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent.toLowerCase()).toContain(
-      'how to estimate anything'
-    );
+    expect(
+      compiled
+        .querySelector('h1')
+        .textContent.toLowerCase()
+        .trim()
+    ).toContain('test de calibrage');
   });
 });
