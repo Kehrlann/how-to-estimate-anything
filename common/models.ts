@@ -11,6 +11,7 @@ export interface QuestionWithOrder extends Question {
 
 export interface QuestionWithAnswer extends Question {
   answer: number;
+  source: string;
 }
 
 export interface Estimate {
