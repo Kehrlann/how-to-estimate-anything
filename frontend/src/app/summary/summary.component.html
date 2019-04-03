@@ -1,6 +1,5 @@
-<h2>
-  C'est fini !
-</h2>
+<div>Votre score:</div>
+<h2 class="score">{{ score }}/{{ questions.length }}</h2>
 <div id="estimates">
   <div class="estimate" *ngFor="let estimate of questions">
     <div>{{ estimate.text }}</div>

@@ -51,7 +51,13 @@ describe('SummaryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('displaying results', () => {
+  it('displays the total score', () => {
+    const score = fixture.debugElement.query(By.css('.score')).nativeElement
+      .textContent;
+    expect(score).toEqual('1/2');
+  });
+
+  describe('displaying individual questions', () => {
     let one: DebugElement;
     let two: DebugElement;
 

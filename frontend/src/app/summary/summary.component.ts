@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Question } from '@common/models';
+import { Question, QuestionWithAnswer } from '@common/models';
 import { QuestionService } from '../question/question.service';
 
 @Component({
@@ -8,11 +8,18 @@ import { QuestionService } from '../question/question.service';
   styleUrls: ['./summary.component.scss']
 })
 export class SummaryComponent implements OnInit {
-  questions: Question[] = [];
+  questions: QuestionAnswerAndCorrectness[] = [];
+  get score(): number {
+    return this.questions.filter(q => q.correct).length;
+  }
 
   constructor(private questionService: QuestionService) {}
 
   ngOnInit() {
-    this.questions = this.questionService.getQuestions();
+    this.questions = this.questionService
+      .getQuestions()
+      .map(q => ({ ...q, correct: q.min <= q.answer && q.max >= q.answer }));
   }
 }
+
+type QuestionAnswerAndCorrectness = QuestionWithAnswer & { correct: boolean };
