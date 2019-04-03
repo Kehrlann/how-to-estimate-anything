@@ -1,9 +1,15 @@
 .form {
   display: flex;
   flex-flow: column;
+
   & > label,
   input {
     margin-top: 1em;
+  }
+
+  & > input {
+    width: 100%;
+    font-size: 1.25em;
   }
 }
 
