@@ -1,11 +1,41 @@
 .estimate {
-  display: flex;
-  flex-flow: column;
   margin-top: 1.5em;
   padding-bottom: 0.5em;
   border-bottom: 1px solid #333;
+}
 
-  & > * + * {
-    margin-top: 0.5em;
+.answers {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 1em;
+
+  .details {
+    flex: 0 0 auto;
+    min-width: 200px;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    margin-left: 1em;
+
+    & > * + * {
+      margin-top: 0.5em;
+    }
+  }
+
+  .icon {
+    flex: 0 1 auto;
+    padding: 0.5em;
+    font-size: 1.5em;
+    font-weight: bold;
+
+    &.correct {
+      color: green;
+    }
+
+    &.incorrect {
+      color: red;
+    }
   }
 }

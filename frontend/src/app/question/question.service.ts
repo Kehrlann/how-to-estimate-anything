@@ -1,13 +1,17 @@
-import { Injectable, InjectionToken, Inject } from '@angular/core';
-import { Question, QuestionWithOrder, Estimates } from '@common/models';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
+import {
+  Estimates,
+  Question,
+  QuestionWithAnswer,
+  QuestionWithOrder
+} from '@common/models';
 import { ReportingService } from '../backend/reporting.service';
-import { getQuestions } from '@common/data';
 
 // must be defined first !
 export const QUESTION_DB = new InjectionToken<QuestionDb>('question.db');
 
 interface QuestionDb {
-  getQuestions(): Question[];
+  getQuestions(): QuestionWithAnswer[];
 }
 
 // TODO: inject local storage ?
@@ -15,7 +19,7 @@ interface QuestionDb {
   providedIn: 'root'
 })
 export class QuestionService {
-  private get questions(): Question[] {
+  private get questions(): QuestionWithAnswer[] {
     return this.questionDb
       .getQuestions()
       .map(q => ({ ...q, ...this.estimates[q.id] }));
@@ -28,7 +32,7 @@ export class QuestionService {
     private reportingService: ReportingService
   ) {}
 
-  getQuestions(): Question[] {
+  getQuestions(): QuestionWithAnswer[] {
     return this.questions;
   }
 

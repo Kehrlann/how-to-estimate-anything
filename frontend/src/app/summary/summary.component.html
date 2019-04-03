@@ -3,7 +3,23 @@
 </h2>
 <div id="estimates">
   <div class="estimate" *ngFor="let estimate of questions">
-    <span>{{ estimate.text }}</span>
-    <span>{{ estimate.min }} - {{ estimate.max }}</span>
+    <div>{{ estimate.text }}</div>
+    <div class="answers">
+      <div
+        *ngIf="
+          estimate.min <= estimate.answer && estimate.max >= estimate.answer;
+          else incorrect
+        "
+        class="icon correct"
+      >
+        ✔
+      </div>
+      <div class="details">
+        <span>Estimation : {{ estimate.min }} - {{ estimate.max }}</span>
+        <span>Réponse : {{ estimate.answer }}</span>
+      </div>
+    </div>
   </div>
 </div>
+
+<ng-template #incorrect><div class="icon incorrect">✘</div></ng-template>

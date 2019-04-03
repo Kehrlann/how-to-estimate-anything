@@ -30,13 +30,15 @@ describe('SummaryComponent', () => {
         id: 1,
         text: 'One',
         min: 10,
-        max: 19
+        max: 19,
+        answer: 15
       },
       {
         id: 2,
         text: 'Two',
         min: 20,
-        max: 29
+        max: 29,
+        answer: 42
       }
     ]);
 
@@ -49,15 +51,38 @@ describe('SummaryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('displays results for all questions', () => {
-    const estimates = fixture.debugElement.queryAll(By.css('.estimate'));
-    const one = estimates[0].nativeElement;
-    const two = estimates[1].nativeElement;
+  describe('displaying results', () => {
+    let one: DebugElement;
+    let two: DebugElement;
 
-    expect(one.textContent).toContain('One');
-    expect(one.textContent).toContain('10 - 19');
+    beforeEach(() => {
+      const estimates = fixture.debugElement.queryAll(By.css('.estimate'));
+      one = estimates[0];
+      two = estimates[1];
+    });
 
-    expect(two.textContent).toContain('Two');
-    expect(two.textContent).toContain('20 - 29');
+    it('displays results for all questions', () => {
+      const oneText = one.nativeElement.textContent;
+      const twoText = two.nativeElement.textContent;
+
+      expect(oneText).toContain('One');
+      expect(oneText).toContain('10 - 19');
+      expect(oneText).toContain('15');
+
+      expect(twoText).toContain('Two');
+      expect(twoText).toContain('20 - 29');
+      expect(twoText).toContain('42');
+    });
+
+    it('displays a symbol for in.correct estimation', () => {
+      const markOne = one.query(By.css('.icon')).nativeElement;
+      const markTwo = two.query(By.css('.icon')).nativeElement;
+
+      expect(markOne.textContent.trim()).toEqual('✔');
+      expect(markOne.classList).toContain('correct');
+
+      expect(markTwo.textContent.trim()).toEqual('✘');
+      expect(markTwo.classList).toContain('incorrect');
+    });
   });
 });
