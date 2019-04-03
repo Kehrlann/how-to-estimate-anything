@@ -32,8 +32,9 @@ export const getQuestions = (): QuestionWithAnswer[] => [
   },
   {
     id: 5,
-    text: 'Quelle est la superficie de la Chine (km carrés) ?',
-    answer: 9596961,
+    text:
+      "A combien s'élevait la population chinoise en 2016 (millions d'habitants) ?",
+    answer: 1400,
     source: 'https://en.wikipedia.org/wiki/China'
   },
   {
