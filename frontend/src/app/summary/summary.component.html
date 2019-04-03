@@ -8,12 +8,12 @@
       <div
         *ngIf="
           estimate.min <= estimate.answer && estimate.max >= estimate.answer;
+          then correct;
           else incorrect
         "
-        class="icon correct"
-      >
-        ✔
-      </div>
+      ></div>
+      <ng-template #correct><div class="icon correct">✔</div></ng-template>
+      <ng-template #incorrect><div class="icon incorrect">✘</div></ng-template>
       <div class="details">
         <span>Estimation : {{ estimate.min }} - {{ estimate.max }}</span>
         <span>Réponse : {{ estimate.answer }}</span>
@@ -21,5 +21,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #incorrect><div class="icon incorrect">✘</div></ng-template>
