@@ -1,27 +1,32 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken, Inject } from '@angular/core';
 import { Question, QuestionWithOrder, Estimates } from '@common/models';
 import { ReportingService } from '../backend/reporting.service';
+import { getQuestions } from '@common/data';
 
+// must be defined first !
+export const QUESTION_DB = new InjectionToken<QuestionDb>('question.db');
+
+interface QuestionDb {
+  getQuestions(): Question[];
+}
+
+// TODO: inject local storage ?
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService {
   private get questions(): Question[] {
-    return [
-      {
-        id: 1,
-        text: 'Question one ?'
-      },
-      {
-        id: 2,
-        text: 'Question two ?'
-      }
-    ].map(q => ({ ...q, ...this.estimates[q.id] }));
+    return this.questionDb
+      .getQuestions()
+      .map(q => ({ ...q, ...this.estimates[q.id] }));
   }
 
   private estimates: Estimates = {};
 
-  constructor(private reportingService: ReportingService) {}
+  constructor(
+    @Inject(QUESTION_DB) private questionDb: QuestionDb,
+    private reportingService: ReportingService
+  ) {}
 
   getQuestions(): Question[] {
     return this.questions;

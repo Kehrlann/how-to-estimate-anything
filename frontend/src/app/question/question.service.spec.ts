@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { QuestionService } from './question.service';
 import { ReportingService } from '../backend/reporting.service';
+import { QuestionService, QUESTION_DB } from './question.service';
 
 describe('QuestionService', () => {
   let service: QuestionService;
@@ -10,6 +10,21 @@ describe('QuestionService', () => {
         {
           provide: ReportingService,
           useValue: jasmine.createSpyObj('reportingService', ['reportEstimate'])
+        },
+        {
+          provide: QUESTION_DB,
+          useValue: {
+            getQuestions: () => [
+              {
+                id: 1,
+                text: 'Question one ?'
+              },
+              {
+                id: 2,
+                text: 'Question two ?'
+              }
+            ]
+          }
         }
       ]
     });
